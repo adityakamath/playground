@@ -11,15 +11,16 @@ scene.background = new THREE.Color(0x009fa1);  // LeKiwi teal — constant
 
 // ── Panel offset ─────────────────────────────────────────────────────────────
 // The control panel is fixed at left:20px, width:220px → right edge at 240px.
-// The canvas is inset by this amount so the robot at world origin is centered
-// in the visible area to the right of the panel on any screen size.
+// setViewOffset shifts the camera frustum left by half this amount so the robot
+// at world origin appears centred in the visible area to the right of the panel.
+// The canvas still covers the full screen — only the projection is offset.
 // If the panel width ever changes, update this constant to match.
 const PANEL_OFFSET = 240; // px
 
 // ── Camera (Z-up / ROS convention) ───────────────────────────────────────────
 export const camera = new THREE.PerspectiveCamera(
   45,
-  (window.innerWidth - PANEL_OFFSET) / window.innerHeight,
+  window.innerWidth / window.innerHeight,
   0.01,
   1000
 );
@@ -28,7 +29,7 @@ camera.up.set(0, 0, 1);
 
 // ── Renderer ─────────────────────────────────────────────────────────────────
 export const renderer = new THREE.WebGLRenderer({ antialias: true });
-renderer.setSize(window.innerWidth - PANEL_OFFSET, window.innerHeight);
+renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 document.getElementById('canvas-container').appendChild(renderer.domElement);
@@ -147,11 +148,20 @@ export const axesHelper = createAxesHelper(0.125);
 axesHelper.visible = true;
 scene.add(axesHelper);
 
+// ── View offset — keeps robot centred in available area at any screen size ────
+function applyViewOffset() {
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+  // Negative x shifts the frustum leftward, moving world origin rightward on
+  // screen by PANEL_OFFSET/2 px — centering it between the panel and right edge.
+  camera.setViewOffset(w, h, -PANEL_OFFSET / 2, 0, w, h);
+}
+applyViewOffset();
+
 // ── Resize handler ────────────────────────────────────────────────────────────
 window.addEventListener('resize', () => {
-  const w = window.innerWidth - PANEL_OFFSET;
-  const h = window.innerHeight;
-  camera.aspect = w / h;
+  camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
-  renderer.setSize(w, h);
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  applyViewOffset();
 });
