@@ -353,6 +353,9 @@ input[type="range"]::-moz-range-thumb {
 
 .view-buttons button {
   flex: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  font-size: 11px;
 }
 
 /* ── Generic button base ── */
