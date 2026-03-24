@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="assets/kamath_robotics_favicon.svg">
+  <title>Robot Playground — Kamath Robotics</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div id="canvas-container"></div>
+
+  <div id="controls">
+
+    <!-- Robot selector -->
+    <div class="robot-selector">
+      <select id="robotSelect">
+        <option value="lekiwi" selected>LeKiwi</option>
+        <option value="kr003">KR003</option>
+        <option value="akros">AKROS</option>
+      </select>
+    </div>
+
+    <!-- Controls section -->
+    <div class="collapsible open" id="controlsSection">
+      <div class="collapsible-header">
+        <span>Controls</span>
+        <span class="collapsible-icon">▾</span>
+      </div>
+      <div class="collapsible-content">
+
+        <!-- Key grid -->
+        <div class="key-grid">
+          <div class="key-row">
+            <div class="key" id="key-q">
+              <span class="key-letter">Q</span>
+              <span class="key-symbol">↺</span>
+            </div>
+            <div class="key movement-key" id="key-w">
+              <span class="key-letter">W</span>
+              <span class="key-symbol">↑</span>
+            </div>
+            <div class="key" id="key-e">
+              <span class="key-letter">E</span>
+              <span class="key-symbol">↻</span>
+            </div>
+          </div>
+          <div class="key-row">
+            <div class="key movement-key" id="key-a">
+              <span class="key-letter">A</span>
+              <span class="key-symbol">←</span>
+            </div>
+            <div class="key movement-key" id="key-s">
+              <span class="key-letter">S</span>
+              <span class="key-symbol">↓</span>
+            </div>
+            <div class="key movement-key" id="key-d">
+              <span class="key-letter">D</span>
+              <span class="key-symbol">→</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Velocity sliders -->
+        <div class="slider-group">
+          <div class="slider-item">
+            <label for="linearVelocitySlider">
+              Linear Vel: <span id="linearVelocityValue">0.10</span> m/s
+            </label>
+            <input type="range" id="linearVelocitySlider" min="0" max="0.2" step="0.01" value="0.1">
+          </div>
+          <div class="slider-item">
+            <label for="angularVelocitySlider">
+              Angular Vel: <span id="angularVelocityValue">0.79</span> rad/s
+            </label>
+            <input type="range" id="angularVelocitySlider" min="0" max="1.57" step="0.01" value="0.785398">
+          </div>
+        </div>
+
+        <!-- E-Stop — always present in Controls regardless of profile -->
+        <div class="key estop-key estop-wide" id="key-x">
+          <span class="estop-label">E-STOP / X</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- View section —always present regardless of profile -->
+    <div class="collapsible open" id="viewSection">
+      <div class="collapsible-header">
+        <span>View</span>
+        <span class="collapsible-icon">▾</span>
+      </div>
+      <div class="collapsible-content">
+        <div class="view-buttons">
+          <button id="axesButton" class="toggle-button">Axes</button>
+          <button id="gridButton" class="toggle-button">Grid</button>
+          <button id="resetButton">Reset</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="loadingStatus">Loading models…</div>
+
+  </div>
+
+  <div id="info">
+    <a href="https://kamathrobotics.com/" target="_blank">
+      <img src="assets/kamath_robotics_logo_dark.svg" alt="Kamath Robotics" id="logo">
+    </a>
+  </div>
+
+  <!-- CDN dependencies loaded as classic scripts so THREE / URDFLoader become globals -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/STLLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/urdf-loader@0.12.6/umd/URDFLoader.js"></script>
+
+  <!-- App entry point (ES module — deferred by default, runs after DOM + classic scripts) -->
+  <script type="module" src="js/main.js"></script>
+
+</body>
+</html>
