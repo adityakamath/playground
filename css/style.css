@@ -498,12 +498,15 @@ input[type="range"]::-moz-range-thumb {
 .hint-item {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
+  padding: 3px 7px;
+  background: rgba(0, 0, 0, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 5px;
 }
 
 .hint-item svg {
   flex-shrink: 0;
-  color: rgba(255, 255, 255, 0.5);
 }
 
 .hint-key {
