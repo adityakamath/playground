@@ -478,6 +478,15 @@ input[type="range"]::-moz-range-thumb {
   user-select: none;
 }
 
+.hint-label {
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+  white-space: nowrap;
+}
+
 .hint-divider {
   color: rgba(255, 255, 255, 0.2);
   font-size: 10px;
