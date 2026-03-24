@@ -469,15 +469,14 @@ input[type="range"]::-moz-range-thumb {
   flex-shrink: 0;
 }
 
-/* ── Camera controls hint — fixed footnote at bottom centre ── */
+/* ── Camera controls hint — bottom-left of viewport, just right of panel ── */
 #cameraHints {
   position: fixed;
   bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 252px; /* panel right edge (240px) + 12px gap */
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   gap: 5px;
   color: rgba(255, 255, 255, 0.45);
   pointer-events: none;
