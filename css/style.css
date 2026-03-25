@@ -25,11 +25,11 @@ body {
 /* ── Control panel ── */
 #controls {
   position: fixed;
-  top: 20px;
-  left: 20px;
+  top: 12px;
+  left: 12px;
   width: 220px;
-  max-height: calc(100vh - 40px);
-  background: rgba(0, 0, 0, 0.72);
+  max-height: calc(100vh - 72px);  /* 12px top + 48px footer + 12px gap */
+  background: rgba(38, 38, 38, 0.90);
   padding: 12px;
   border-radius: 8px;
   z-index: 10;
@@ -45,6 +45,14 @@ body {
 #controls::-webkit-scrollbar-track { background: transparent; }
 #controls::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 2px; }
 
+/* ── Playground title ── */
+#playground-title {
+  display: block;
+  width: 75%;
+  height: auto;
+  margin: 0 auto 2px;
+}
+
 /* ── Robot selector row (dropdown + info button) ── */
 .selector-row {
   display: flex;
@@ -58,7 +66,7 @@ body {
 }
 
 /* ── Info (ⓘ) button ── */
-.info-button {
+#controls .info-button {
   flex-shrink: 0;
   width: 26px;
   height: 26px;
@@ -66,7 +74,7 @@ body {
   align-items: center;
   justify-content: center;
   background: rgba(255, 255, 255, 0.1);
-  color: rgba(2, 210, 210, 0.85);
+  color: rgba(255, 255, 255, 0.55);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 5px;
   cursor: pointer;
@@ -76,26 +84,26 @@ body {
   transition: background 0.15s, border-color 0.15s, color 0.15s;
 }
 
-.info-button:hover {
+#controls .info-button:hover {
   background: rgba(255, 255, 255, 0.16);
-  color: rgba(2, 230, 230, 1);
-  border-color: rgba(2, 190, 190, 0.4);
+  color: rgba(255, 255, 255, 0.95);
+  border-color: rgba(255, 255, 255, 0.25);
 }
 
-.info-button.active {
+#controls .info-button.active {
   background: rgba(2, 130, 130, 0.38);
   border-color: rgba(2, 190, 190, 0.5);
-  color: rgba(2, 230, 230, 1);
+  color: rgba(255, 255, 255, 0.95);
 }
 
 /* ── Robot info card (floating popover) ── */
 #infoCard {
   display: none;
   position: fixed;
-  top: 20px;
-  left: calc(20px + 220px + 12px);  /* panel left + panel width + gap */
-  width: 240px;
-  background: rgba(0, 0, 0, 0.72);
+  top: 12px;
+  left: calc(12px + 220px + 12px);  /* panel left + panel width + gap */
+  width: 220px;
+  background: rgba(38, 38, 38, 0.90);
   padding: 12px;
   border-radius: 8px;
   z-index: 10;
@@ -152,7 +160,7 @@ body {
 #robotSelect {
   width: 100%;
   padding: 5px 22px 5px 8px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.07);
   color: rgba(255, 255, 255, 0.9);
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 5px;
@@ -265,22 +273,28 @@ body {
   transition: background 0.1s, border-color 0.1s, box-shadow 0.1s;
 }
 
+/* White/grey tint for rotation keys (Q/E) */
+#key-q, #key-e {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
 /* Teal tint for movement keys (W/A/S/D) */
 .key.movement-key {
-  background: rgba(2, 138, 138, 0.28);
-  border-color: rgba(2, 190, 190, 0.22);
+  background: rgba(2, 130, 130, 0.38);
+  border-color: rgba(2, 190, 190, 0.5);
 }
 
 .key-letter {
   font-size: 12px;
   font-weight: bold;
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255, 255, 255, 0.95);
   line-height: 1;
 }
 
 .key-symbol {
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.38);
+  color: rgba(255, 255, 255, 0.55);
   line-height: 1;
 }
 
@@ -292,7 +306,7 @@ body {
 }
 
 .key.active .key-symbol {
-  color: rgba(2, 230, 230, 0.85);
+  color: rgba(255, 255, 255, 0.95);
 }
 
 /* ── Velocity sliders ── */
@@ -302,12 +316,32 @@ body {
   gap: 10px;
 }
 
-.slider-item label {
-  display: block;
+.slider-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.slider-label {
+  flex: 1;
   font-size: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
   color: rgba(255, 255, 255, 0.55);
-  margin-bottom: 5px;
-  text-align: center;
+}
+
+.slider-value-badge {
+  flex-shrink: 0;
+  background: rgba(2, 130, 130, 0.38);
+  border: 1px solid rgba(2, 190, 190, 0.5);
+  border-radius: 4px;
+  padding: 1px 4px;
+  font-size: 10px;
+  font-family: monospace;
+  color: rgba(255, 255, 255, 0.95);
+  letter-spacing: 0.3px;
 }
 
 input[type="range"] {
@@ -362,18 +396,27 @@ input[type="range"]::-moz-range-thumb {
 #controls button {
   padding: 5px 0;
   background: rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(255, 255, 255, 0.55);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 5px;
   cursor: pointer;
   font-size: 11px;
   font-family: Arial, sans-serif;
-  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  transition: background 0.15s, border-color 0.15s, color 0.15s, box-shadow 0.15s;
 }
 
 #controls button:hover {
   background: rgba(255, 255, 255, 0.16);
-  color: white;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+/* Reset button — brief teal flash on click, then returns to default */
+#resetButton.active,
+#resetButton.active:hover {
+  background: rgba(2, 130, 130, 0.38);
+  border-color: rgba(2, 190, 190, 0.5);
+  color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 8px rgba(2, 190, 190, 0.35);
 }
 
 /* Active toggle state — teal */
@@ -387,6 +430,10 @@ input[type="range"]::-moz-range-thumb {
 /* Default appearance identical to Q/E. Active state is red instead of teal. */
 .key.estop-key {
   cursor: pointer;
+}
+
+.key.estop-key:hover .estop-label {
+  color: rgba(255, 255, 255, 0.95);
 }
 
 .key.estop-key.active {
@@ -407,22 +454,44 @@ input[type="range"]::-moz-range-thumb {
 .estop-label {
   font-size: 12px;
   font-weight: bold;
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255, 255, 255, 0.55);
   letter-spacing: 0.5px;
 }
 
 .key.estop-key.active .estop-label {
-  color: rgba(255, 255, 255, 1);
+  color: rgba(255, 255, 255, 0.95);
 }
 
 /* ── Loading status ── */
 #loadingStatus {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   margin-top: 0;
   font-size: 10px;
   color: rgba(255, 255, 255, 0.5);
-  text-align: center;
   padding-top: 4px;
   flex-shrink: 0;
+}
+
+#loadingStatus.visible {
+  display: flex;
+}
+
+#loadingStatus.loading::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
+  border-top-color: rgba(2, 200, 200, 0.9);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 /* ── Info card content ── */
@@ -469,79 +538,82 @@ input[type="range"]::-moz-range-thumb {
   flex-shrink: 0;
 }
 
-/* ── Camera controls hint — bottom-left of viewport, just right of panel ── */
-#cameraHints {
-  position: fixed;
-  bottom: 20px;
-  left: 252px; /* panel right edge (240px) + 12px gap */
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 5px;
-  color: rgba(255, 255, 255, 0.45);
-  pointer-events: none;
-  user-select: none;
-}
-
-.hint-boxes {
-  display: flex;
-  flex-direction: row;
-  gap: 5px;
-}
-
-.hint-label {
-  font-size: 10px;
-  font-weight: bold;
-  letter-spacing: 0.6px;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.45);
-  white-space: nowrap;
-}
 
 
-.hint-item {
+/* ── Footer telemetry ── */
+#telem-left {
   display: flex;
   align-items: center;
-  gap: 4px;
-  padding: 3px 7px;
-  background: rgba(0, 0, 0, 0.28);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 5px;
+  gap: 0;
 }
 
-.hint-item svg {
+#telem-icon {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.4);
+  margin-right: 8px;
+  line-height: 1;
   flex-shrink: 0;
 }
 
-.hint-key {
-  background: rgba(0, 0, 0, 0.28);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 4px;
-  padding: 1px 6px;
+#footer-divider {
+  width: 1px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.15);
+  margin-left: 12px;
+  flex-shrink: 0;
+}
+
+#telemetry {
+  margin-left: 4px;
+  display: grid;
+  /* grid-template-columns and rows are set dynamically by renderTelemetry() */
+  column-gap: 4px;
+  row-gap: 2px;
+  font-family: 'Courier New', monospace;
   font-size: 10px;
-  color: rgba(255, 255, 255, 0.6);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  align-items: baseline;
+}
+
+.tl {
+  color: rgba(255, 255, 255, 0.45);
+  text-align: right;
+}
+
+.tv {
+  color: rgba(255, 255, 255, 0.9);
 }
 
 
-/* ── Info / logo ── */
-#info {
+/* ── Footer bar ── */
+#footer {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 48px;
+  background: rgba(38, 38, 38, 0.90);
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  justify-content: space-between;
+  z-index: 10;
 }
 
-#info a {
-  display: block;
+#footer-logo-link {
+  display: flex;
+  align-items: center;
   text-decoration: none;
 }
 
 #logo {
-  height: 28px;
+  height: 25px;
   width: auto;
-  opacity: 0.75;
-  transition: opacity 0.15s;
+  opacity: 1;
+  transition: filter 0.2s;
 }
 
-#info a:hover #logo {
-  opacity: 1;
+#footer-logo-link:hover #logo {
+  filter: drop-shadow(0 0 6px rgba(2, 190, 190, 0.7)) drop-shadow(0 0 12px rgba(2, 190, 190, 0.4));
 }

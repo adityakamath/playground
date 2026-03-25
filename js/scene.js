@@ -7,7 +7,7 @@
 
 // ── Scene + background ───────────────────────────────────────────────────────
 export const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x009fa1);  // LeKiwi teal — constant
+scene.background = new THREE.Color(0x009fa1);  // teal — constant
 
 // ── Panel offset ─────────────────────────────────────────────────────────────
 // The control panel is fixed at left:20px, width:220px → right edge at 240px.
@@ -24,7 +24,7 @@ export const camera = new THREE.PerspectiveCamera(
   0.01,
   1000
 );
-camera.position.set(0.6, -0.6, 0.3);
+camera.position.set(0.75, -0.75, 0.35);
 camera.up.set(0, 0, 1);
 
 // ── Renderer ─────────────────────────────────────────────────────────────────

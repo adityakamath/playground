@@ -8,6 +8,7 @@ import { updateJoints }   from '../kinematics/omni3.js';
 import { wheeledProfile } from '../input/profiles/wheeled.js';
 
 export const config = {
+  robotType: 'wheeled',
   title:    'LeKiwi Playground',
   repoBase: 'https://raw.githubusercontent.com/adityakamath/lekiwi_ros2/main/',
   urdfPath: 'lekiwi_description/urdf/base.urdf',
@@ -20,9 +21,25 @@ export const config = {
     maxWheelVel:  (2720 * 2 * Math.PI) / 4096,  // ≈ 4.17 rad/s (motor limit from URDF)
   },
 
-  // TODO(portfolio): replace dummy description and confirm githubUrl before launch
+  telemetry: {
+    icon: '⌖',
+    colWidths: ['9ch', '9ch', '11ch'],
+    rows: [
+      [
+        { id: 'x',     label: 'x', getValue: s => s.pose.x.toFixed(2) + ' m' },
+        { id: 'y',     label: 'y', getValue: s => s.pose.y.toFixed(2) + ' m' },
+        { id: 'theta', label: 'θ', getValue: s => (((s.pose.theta % (2*Math.PI)) + 2*Math.PI) % (2*Math.PI)).toFixed(2) + ' rad' },
+      ],
+      [
+        { id: 'u',     label: 'u', getValue: s => s.vel.vx.toFixed(2)    + ' m/s' },
+        { id: 'v',     label: 'v', getValue: s => s.vel.vy.toFixed(2)    + ' m/s' },
+        { id: 'omega', label: 'ω', getValue: s => s.vel.omega.toFixed(2) + ' rad/s' },
+      ],
+    ],
+  },
+
   about: {
-    description: 'LeKiwi is a low-cost, open-source omnidirectional mobile robot built on a three-wheel holonomic drive. Designed for research and education, it uses custom 3D-printed parts and off-the-shelf components, and runs fully on <a href="https://ros.org" target="_blank">ROS 2</a>.',
+    description: 'LeKiwi is an open-source mobile robot built on a holonomic drive, originally part of the LeRobot platform for robotics research and education. Built with 3D-printed parts, it includes serial bus servo motors with omni-wheels, a webcam, and supports the attachment of a SO-100/101 robot arm. This build extends LeKiwi with a LiDAR for spatial awareness and full ROS 2 support.',
     githubUrl:   'https://github.com/adityakamath/lekiwi_ros2',
   },
 

@@ -8,6 +8,7 @@ import { updateJoints }   from '../kinematics/mecanum.js';
 import { wheeledProfile } from '../input/profiles/wheeled.js';
 
 export const config = {
+  robotType: 'wheeled',
   title:    'AKROS Playground',
   repoBase: 'https://raw.githubusercontent.com/adityakamath/akros2/main/akros2_description/urdf/',
   urdfPath: 'robot.urdf',
@@ -20,9 +21,25 @@ export const config = {
     wheelRadius: 0.0385,     // metres (from URDF)
   },
 
-  // TODO(portfolio): replace dummy description and confirm githubUrl before launch
+  telemetry: {
+    icon: '⌖',
+    colWidths: ['9ch', '9ch', '11ch'],
+    rows: [
+      [
+        { id: 'x',     label: 'x', getValue: s => s.pose.x.toFixed(2) + ' m' },
+        { id: 'y',     label: 'y', getValue: s => s.pose.y.toFixed(2) + ' m' },
+        { id: 'theta', label: 'θ', getValue: s => (((s.pose.theta % (2*Math.PI)) + 2*Math.PI) % (2*Math.PI)).toFixed(2) + ' rad' },
+      ],
+      [
+        { id: 'u',     label: 'u', getValue: s => s.vel.vx.toFixed(2)    + ' m/s' },
+        { id: 'v',     label: 'v', getValue: s => s.vel.vy.toFixed(2)    + ' m/s' },
+        { id: 'omega', label: 'ω', getValue: s => s.vel.omega.toFixed(2) + ' rad/s' },
+      ],
+    ],
+  },
+
   about: {
-    description: 'AKROS is a mid-size mecanum-drive research platform built for ROS 2 navigation and manipulation experiments. It features a modular sensor suite and is designed to support rapid hardware iteration.',
+    description: 'AKROS is a mecanum-drive mobile robot designed for navigation experiments and sensor integration/testing. Originally running on ROS 1 Noetic, it was later migrated to ROS 2 and micro-ROS before being retired in 2025. It features a LiDAR and a webcam, alongside wireless charging capabilities, and has been used for testing experimental payloads such as depth/VIO cameras and optical flow sensors.',
     githubUrl:   'https://github.com/adityakamath/akros2',
   },
 

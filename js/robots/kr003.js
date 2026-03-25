@@ -8,6 +8,7 @@ import { updateJoints }   from '../kinematics/mecanum.js';
 import { wheeledProfile } from '../input/profiles/wheeled.js';
 
 export const config = {
+  robotType: 'wheeled',
   title:    'KR003 Playground',
   repoBase: 'https://raw.githubusercontent.com/adityakamath/kr0003_description/main/urdf/',
   urdfPath: 'robot.urdf',
@@ -20,9 +21,25 @@ export const config = {
     wheelRadius: 0.0385,     // metres (from URDF)
   },
 
-  // TODO(portfolio): replace dummy description and confirm githubUrl before launch
+  telemetry: {
+    icon: '⌖',
+    colWidths: ['9ch', '9ch', '11ch'],
+    rows: [
+      [
+        { id: 'x',     label: 'x', getValue: s => s.pose.x.toFixed(2) + ' m' },
+        { id: 'y',     label: 'y', getValue: s => s.pose.y.toFixed(2) + ' m' },
+        { id: 'theta', label: 'θ', getValue: s => (((s.pose.theta % (2*Math.PI)) + 2*Math.PI) % (2*Math.PI)).toFixed(2) + ' rad' },
+      ],
+      [
+        { id: 'u',     label: 'u', getValue: s => s.vel.vx.toFixed(2)    + ' m/s' },
+        { id: 'v',     label: 'v', getValue: s => s.vel.vy.toFixed(2)    + ' m/s' },
+        { id: 'omega', label: 'ω', getValue: s => s.vel.omega.toFixed(2) + ' rad/s' },
+      ],
+    ],
+  },
+
   about: {
-    description: 'KR003 is a compact four-wheel mecanum drive robot designed for indoor navigation research. Its holonomic drive allows full omnidirectional movement without turning, making it ideal for tight-space autonomy experiments.',
+    description: 'KR003 is an off-the-shelf mecanum-drive robot platform for robotics R&D. It features industrial DC motors with planetary gearboxes and encoder support, and four ultrasonic sensors for proximity detection. This open-source project covers the development of its URDF for future ROS 2 integration. KR003 was used for a proprietary VR-supported teleoperation and simulation MVP for an engineering company in the Netherlands.',
     githubUrl:   'https://github.com/adityakamath/kr0003_description',
   },
 
