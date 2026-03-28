@@ -12,7 +12,8 @@ export const config = {
   title:     'SO-ARM100 Playground',
   repoBase:  'https://raw.githubusercontent.com/adityakamath/SO-ARM100/main/Simulation/SO100/',
   urdfPath:  'so100.urdf',
-  zOffset:   0.0,
+  zOffset:     0.0,
+  thetaOffset: Math.PI / 2,  // rotate 90° CCW so the arm faces forward in the scene
 
   // No geometry params needed — arm.js does direct joint control
   kinematics: {},

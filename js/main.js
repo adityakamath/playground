@@ -287,7 +287,7 @@ function loadRobot(key) {
       }
 
       robot.position.set(robotPose.x, robotPose.y, config.zOffset);
-      robot.rotation.z = robotPose.theta;
+      robot.rotation.z = robotPose.theta + (config.thetaOffset ?? 0);
       scene.add(robot);
       glitchRobotIn(robot, 450);
       console.log('Robot in scene:', key);
