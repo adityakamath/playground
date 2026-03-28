@@ -26,6 +26,7 @@
           <option value="lekiwi" selected>LeKiwi</option>
           <option value="akros">AKROS</option>
           <option value="kr003">KR003</option>
+          <option value="so100">SO-ARM100</option>
         </select>
       </div>
       <button id="infoButton" class="info-button" aria-label="About this robot">ⓘ</button>
@@ -39,57 +40,132 @@
       </div>
       <div class="collapsible-content">
 
-        <!-- Key grid -->
-        <div class="key-grid">
-          <div class="key-row">
-            <div class="key" id="key-q">
-              <span class="key-letter">Q</span>
-              <span class="key-symbol">↺</span>
-            </div>
-            <div class="key movement-key" id="key-w">
-              <span class="key-letter">W</span>
-              <span class="key-symbol">↑</span>
-            </div>
-            <div class="key" id="key-e">
-              <span class="key-letter">E</span>
-              <span class="key-symbol">↻</span>
-            </div>
-          </div>
-          <div class="key-row">
-            <div class="key movement-key" id="key-a">
-              <span class="key-letter">A</span>
-              <span class="key-symbol">←</span>
-            </div>
-            <div class="key movement-key" id="key-s">
-              <span class="key-letter">S</span>
-              <span class="key-symbol">↓</span>
-            </div>
-            <div class="key movement-key" id="key-d">
-              <span class="key-letter">D</span>
-              <span class="key-symbol">→</span>
-            </div>
-          </div>
-        </div>
+        <!-- Wheeled-only controls: hidden when an arm robot is loaded -->
+        <div id="wheeled-controls">
 
-        <!-- Velocity sliders -->
-        <div class="slider-group">
-          <div class="slider-item">
-            <div class="slider-header">
-              <span class="slider-label">Max Linear</span>
-              <span class="slider-value-badge"><span id="linearVelocityValue">0.10</span> m/s</span>
+          <!-- Key grid -->
+          <div class="key-grid">
+            <div class="key-row">
+              <div class="key" id="key-q">
+                <span class="key-letter">Q</span>
+                <span class="key-symbol">↺</span>
+              </div>
+              <div class="key movement-key" id="key-w">
+                <span class="key-letter">W</span>
+                <span class="key-symbol">↑</span>
+              </div>
+              <div class="key" id="key-e">
+                <span class="key-letter">E</span>
+                <span class="key-symbol">↻</span>
+              </div>
             </div>
-            <input type="range" id="linearVelocitySlider" min="0" max="0.2" step="0.01" value="0.1">
-          </div>
-          <div class="slider-item">
-            <div class="slider-header">
-              <span class="slider-label">Max Angular</span>
-              <span class="slider-value-badge"><span id="angularVelocityValue">0.79</span> rad/s</span>
+            <div class="key-row">
+              <div class="key movement-key" id="key-a">
+                <span class="key-letter">A</span>
+                <span class="key-symbol">←</span>
+              </div>
+              <div class="key movement-key" id="key-s">
+                <span class="key-letter">S</span>
+                <span class="key-symbol">↓</span>
+              </div>
+              <div class="key movement-key" id="key-d">
+                <span class="key-letter">D</span>
+                <span class="key-symbol">→</span>
+              </div>
             </div>
-            <input type="range" id="angularVelocitySlider" min="0" max="1.57" step="0.01" value="0.785398">
           </div>
-        </div>
 
-        <!-- E-Stop — always present in Controls regardless of profile -->
+          <!-- Velocity sliders -->
+          <div class="slider-group">
+            <div class="slider-item">
+              <div class="slider-header">
+                <span class="slider-label">Max Linear</span>
+                <span class="slider-value-badge"><span id="linearVelocityValue">0.10</span> m/s</span>
+              </div>
+              <input type="range" id="linearVelocitySlider" min="0" max="0.2" step="0.01" value="0.1">
+            </div>
+            <div class="slider-item">
+              <div class="slider-header">
+                <span class="slider-label">Max Angular</span>
+                <span class="slider-value-badge"><span id="angularVelocityValue">0.79</span> rad/s</span>
+              </div>
+              <input type="range" id="angularVelocitySlider" min="0" max="1.57" step="0.01" value="0.785398">
+            </div>
+          </div>
+
+        </div><!-- #wheeled-controls -->
+
+        <!-- Arm-only controls: hidden when a wheeled robot is loaded -->
+        <div id="arm-controls" style="display:none">
+          <div class="slider-group">
+
+            <div class="slider-item">
+              <div class="slider-header">
+                <span class="slider-label">Shoulder Pan</span>
+                <span class="slider-value-badge"><span id="armSliderValue_shoulder_pan">0.00</span> rad</span>
+              </div>
+              <input type="range" id="armSlider_shoulder_pan" min="-2" max="2" step="0.01" value="0"
+                oninput="document.getElementById('armSliderValue_shoulder_pan').textContent=parseFloat(this.value).toFixed(2);this.blur()">
+            </div>
+
+            <div class="slider-item">
+              <div class="slider-header">
+                <span class="slider-label">Shoulder Lift</span>
+                <span class="slider-value-badge"><span id="armSliderValue_shoulder_lift">0.00</span> rad</span>
+              </div>
+              <input type="range" id="armSlider_shoulder_lift" min="0" max="3.5" step="0.01" value="0"
+                oninput="document.getElementById('armSliderValue_shoulder_lift').textContent=parseFloat(this.value).toFixed(2);this.blur()">
+            </div>
+
+            <div class="slider-item">
+              <div class="slider-header">
+                <span class="slider-label">Elbow Flex</span>
+                <span class="slider-value-badge"><span id="armSliderValue_elbow_flex">0.00</span> rad</span>
+              </div>
+              <input type="range" id="armSlider_elbow_flex" min="-3.14159" max="0" step="0.01" value="0"
+                oninput="document.getElementById('armSliderValue_elbow_flex').textContent=parseFloat(this.value).toFixed(2);this.blur()">
+            </div>
+
+            <div class="slider-item">
+              <div class="slider-header">
+                <span class="slider-label">Wrist Flex</span>
+                <span class="slider-value-badge"><span id="armSliderValue_wrist_flex">0.00</span> rad</span>
+              </div>
+              <input type="range" id="armSlider_wrist_flex" min="-2.5" max="1.2" step="0.01" value="0"
+                oninput="document.getElementById('armSliderValue_wrist_flex').textContent=parseFloat(this.value).toFixed(2);this.blur()">
+            </div>
+
+            <div class="slider-item">
+              <div class="slider-header">
+                <span class="slider-label">Wrist Roll</span>
+                <span class="slider-value-badge"><span id="armSliderValue_wrist_roll">0.00</span> rad</span>
+              </div>
+              <input type="range" id="armSlider_wrist_roll" min="-3.14159" max="3.14159" step="0.01" value="0"
+                oninput="document.getElementById('armSliderValue_wrist_roll').textContent=parseFloat(this.value).toFixed(2);this.blur()">
+            </div>
+
+            <div class="slider-item">
+              <div class="slider-header">
+                <span class="slider-label">Gripper</span>
+                <span class="slider-value-badge"><span id="armSliderValue_gripper">0.00</span> rad</span>
+              </div>
+              <input type="range" id="armSlider_gripper" min="-0.2" max="2.0" step="0.01" value="0"
+                oninput="document.getElementById('armSliderValue_gripper').textContent=parseFloat(this.value).toFixed(2);this.blur()">
+            </div>
+
+            <div class="slider-item">
+              <div class="slider-header">
+                <span class="slider-label">Motor Speed</span>
+                <span class="slider-value-badge"><span id="armSliderValue_speed">1.00</span> rad/s</span>
+              </div>
+              <input type="range" id="armSlider_speed" min="0.1" max="3.0" step="0.1" value="1.0"
+                oninput="document.getElementById('armSliderValue_speed').textContent=parseFloat(this.value).toFixed(2);this.blur()">
+            </div>
+
+          </div>
+        </div><!-- #arm-controls -->
+
+        <!-- E-Stop — always present regardless of robot type -->
         <div class="key estop-key estop-wide" id="key-x">
           <span class="estop-label">E-STOP / X</span>
         </div>
