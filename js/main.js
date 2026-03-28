@@ -268,8 +268,10 @@ function loadRobot(key) {
 
       // Attach per-robot axes helper
       // For elevated robots (zOffset > 0) we push axes down so they sit at Z = 0
+      // Counter-rotate by thetaOffset so axes stay world-aligned when the mesh is rotated
       robotAxes            = createAxesHelper(0.125);
       robotAxes.position.z = -config.zOffset;
+      robotAxes.rotation.z = -(config.thetaOffset ?? 0);
       robotAxes.visible    = axesHelper.visible;
       robot.add(robotAxes);
 
