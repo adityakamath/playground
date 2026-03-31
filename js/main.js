@@ -435,6 +435,14 @@ document.getElementById('resetButton').addEventListener('click', () => {
     robot.rotation.z = activeRobot.config.thetaOffset ?? 0;
   }
 
+  // Collapse the origin trail line back to a zero-length point
+  if (originLine) {
+    const p = originLine.geometry.attributes.position.array;
+    p[0] = 0; p[1] = 0; p[2] = 0;
+    p[3] = 0; p[4] = 0; p[5] = 0;
+    originLine.geometry.attributes.position.needsUpdate = true;
+  }
+
   // Reset input sliders to current profile defaults + clear key state
   if (activeRobot) applyProfile(activeRobot.inputProfile);
   // Reset arm joint sliders to defaults (no-op for wheeled)
